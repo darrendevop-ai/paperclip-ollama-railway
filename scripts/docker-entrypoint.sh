@@ -3,8 +3,7 @@ set -e
 # Capture runtime UID/GID from environment variables, defaulting to 1000
 PUID=${USER_UID:-1000}
 PGID=${USER_GID:-1000}
-# Adjust the node user's UID/GID if they differ from the runtime request
-# and fix volume ownership only when a remap is needed
+
 changed=0
 if [ "$(id -u node)" -ne "$PUID" ]; then
     echo "Updating node UID to $PUID"
@@ -21,9 +20,4 @@ if [ "$changed" = "1" ]; then
     chown -R node:node /paperclip
 fi
 
-# Bootstrap admin
-echo "=== Bootstrapping Paperclip admin ==="
-su - node -c "cd /app && node ./start.mjs && node ./server.js" || true
-
-echo "=== Starting Paperclip server ==="
-exec gosu node node ./start.mjs && node ./server.js
+exec gosu node "$@"
