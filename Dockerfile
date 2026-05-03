@@ -79,4 +79,5 @@ ENV NODE_ENV=production \
 EXPOSE 3100
 
 ENTRYPOINT ["docker-entrypoint.sh"]
+RUN pnpm paperclipai auth bootstrap-ceo > /tmp/bootstrap-url.txt 2>&1 || true
 CMD ["node", "--import", "./server/node_modules/tsx/dist/loader.mjs", "server/dist/index.js"]
