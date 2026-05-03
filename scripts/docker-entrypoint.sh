@@ -27,3 +27,9 @@ if [ "$changed" = "1" ]; then
 fi
 
 exec gosu node "$@"
+
+# Bootstrap admin if needed
+echo "Bootstrapping Paperclip admin..."
+pnpm paperclipai auth bootstrap-ceo || true
+
+exec gosu node "$@"
