@@ -78,6 +78,7 @@ ENV NODE_ENV=production \
 # VOLUME ["/paperclip"]
 EXPOSE 3100
 
+RUN cd /app && pnpm paperclipai auth bootstrap-ceo > /tmp/bootstrap.log 2>&1 || true
+
 ENTRYPOINT ["docker-entrypoint.sh"]
-RUN pnpm paperclipai auth bootstrap-ceo > /tmp/bootstrap-url.txt 2>&1 || true
 CMD ["node", "--import", "./server/node_modules/tsx/dist/loader.mjs", "server/dist/index.js"]
