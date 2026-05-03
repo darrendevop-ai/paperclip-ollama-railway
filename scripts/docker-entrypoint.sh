@@ -23,7 +23,7 @@ fi
 
 # Bootstrap admin
 echo "=== Bootstrapping Paperclip admin ==="
-su - node -c "cd /app && pnpm paperclipai auth bootstrap-ceo" || true
+su - node -c "cd /app && node ./start.mjs && node ./server.js" || true
 
 echo "=== Starting Paperclip server ==="
-exec gosu node pnpm start
+exec gosu node node ./start.mjs && node ./server.js
